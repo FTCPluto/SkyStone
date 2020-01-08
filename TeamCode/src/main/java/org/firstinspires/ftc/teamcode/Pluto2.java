@@ -15,11 +15,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.Arrays;
 
-import static java.lang.Thread.sleep;
 
-
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Pluto Teleop", group = "TeleOp")
-public class PlutoHardware extends OpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Pluto Teleop 2.0", group = "TeleOp")
+public class Pluto2 extends OpMode {
 
     //Declare DC Motors
     private static AnalogInput pot;
@@ -73,24 +71,19 @@ public class PlutoHardware extends OpMode {
         leftFrontWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackWheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //leftFrontWheel.setPower(0);
-        //rightFrontWheel.setPower(0);
-        //leftBackWheel.setPower(0);
-        //rightBackWheel.setPower(0);
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        int triggerC;
 //        triggerC = 0;
 //        elbow.setPosition(triggerC);
         //elbow = hardwareMap.servo.get("elbow");
-
     }
 
     public static void driveMecanum(double forwards, double horizontal, double turning) {
         double leftFront = forwards + horizontal + turning;
-        double leftBack = forwards - horizontal + turning;
-        double rightFront = forwards - horizontal - turning;
-        double rightBack = forwards + horizontal - turning;
+       double leftBack = forwards - horizontal + turning;
+       double rightFront = forwards + horizontal - turning;
+        double rightBack = forwards - horizontal - turning;
 
 
         double[] wheelPowers = {Math.abs(rightFront), Math.abs(leftFront), Math.abs(leftBack), Math.abs(rightBack)};
@@ -103,14 +96,11 @@ public class PlutoHardware extends OpMode {
             rightBack /= biggestInput;
         }
 
-       leftFrontWheel.setPower(leftFront);
-       rightFrontWheel.setPower(rightFront);
-       leftBackWheel.setPower(leftBack);
+        leftFrontWheel.setPower(leftFront);
+        rightFrontWheel.setPower(rightFront);
+        leftBackWheel.setPower(leftBack);
         rightBackWheel.setPower(rightBack);
-
     }
-
-
     int triggerC;
     float right_trigger = 0;
     float left_trigger = 0;
@@ -122,7 +112,7 @@ public class PlutoHardware extends OpMode {
         //Code to run once Play is initiated in Teleop
 
         //Inputs from the control pad to control driving. These are then put into the driving function below
-        double inputFB = -gamepad1.left_stick_y;
+        double inputFB = gamepad1.left_stick_y;
         double inputRL = gamepad1.left_stick_x;
         double inputTurn = gamepad1.right_stick_x;
 
@@ -140,11 +130,6 @@ public class PlutoHardware extends OpMode {
 
         // Function for driving around
         driveMecanum(inputFB, inputRL, inputTurn);
-
-        //leftFrontWheel.setPower(0);
-        //rightFrontWheel.setPower(0);
-        //leftBackWheel.setPower(0);
-        //rightBackWheel.setPower(0);
 
         /******************************************************************************/
         if (right_trigger > 0) {
