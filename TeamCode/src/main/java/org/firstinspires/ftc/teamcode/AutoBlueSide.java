@@ -121,23 +121,21 @@ public class AutoBlueSide extends LinearOpMode {
             F1.setPosition(0.5);
             F2.setPosition(0.5);
 
+            //Robot strafing left
+            drive(-0.2,0.2,0.2,-0.2);
+
+            sleep(50);
+            brake();
             // move foundation to the wall
-            drive(-0.25,-0.25,-0.25,-0.25);
+            drive(-0.15,-0.15,-0.15,-0.15);
 
             sleep(50);
             brake();
 
-            //Robot strafing left
-            drive(-0.2,0.2,-0.2,0.2);
-
-            sleep(100);
-            brake();
-
-
             //Moves back to park under bridge
             drive(0.25,0.25,0.25,0.25);
 
-            sleep(300);
+            sleep(350);
             brake();
             telemetry.addData("Mode", "Pluto has walked");
             

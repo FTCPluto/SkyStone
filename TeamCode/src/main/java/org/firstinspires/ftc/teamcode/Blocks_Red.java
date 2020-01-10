@@ -13,9 +13,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous(name = "Blocks 1.1 ", group = "AutoOp")
+@Autonomous(name = "Blocks Red ", group = "AutoOp")
 
-public class Blocks_11 extends LinearOpMode {
+public class Blocks_Red extends LinearOpMode {
 
     // Drive motors
     DcMotor left_forward;
@@ -88,7 +88,7 @@ public class Blocks_11 extends LinearOpMode {
 
 
             //Strafes left
-            drive(-0.25,0.25,-0.25,0.25);
+            drive(-0.25,0.25,0.25,-0.25);
 
             sleep(100);
             brake();
@@ -100,7 +100,7 @@ public class Blocks_11 extends LinearOpMode {
             brake();
 
             //Strafes left
-            drive(-0.25,0.25,-0.25,0.25);
+            drive(-0.25,0.25,0.25,-0.25);
 
             sleep(250);
             brake();
@@ -111,8 +111,8 @@ public class Blocks_11 extends LinearOpMode {
             sleep(50);
             brake();
 
-            //strafes left
-            drive(0.25,-0.25,0.25,-0.25);
+            //strafes right
+            drive(0.25,-0.25,-0.25,0.25);
 
             sleep(50);
             brake();

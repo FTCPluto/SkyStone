@@ -58,6 +58,10 @@ public class PlutoHardware extends OpMode {
         rightBackWheel = hardwareMap.dcMotor.get("right_backward");
 
         lift = hardwareMap.dcMotor.get("lift");
+        lift.setDirection(DcMotor.Direction.REVERSE);
+        //lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         elbow = hardwareMap.servo.get("elbow");
 
         F1 = hardwareMap.servo.get("F1");
@@ -67,7 +71,6 @@ public class PlutoHardware extends OpMode {
         //crane = hardwareMap.dcMotor.get("crane");
         wrist = hardwareMap.servo.get("wrist");
 
-        pot = hardwareMap.analogInput.get("pot");
 
         // The two motors will be set in the reverse positions
         leftFrontWheel.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -78,11 +81,11 @@ public class PlutoHardware extends OpMode {
         //leftBackWheel.setPower(0);
         //rightBackWheel.setPower(0);
 
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        int triggerC;
 //        triggerC = 0;
 //        elbow.setPosition(triggerC);
-        //elbow = hardwareMap.servo.get("elbow");
+
 
     }
 
@@ -106,15 +109,14 @@ public class PlutoHardware extends OpMode {
        leftFrontWheel.setPower(leftFront);
        rightFrontWheel.setPower(rightFront);
        leftBackWheel.setPower(leftBack);
-        rightBackWheel.setPower(rightBack);
+       rightBackWheel.setPower(rightBack);
 
     }
 
 
-    int triggerC;
-    float right_trigger = 0;
-    float left_trigger = 0;
-    double targetPosition = 3.170001;
+    //int triggerC;
+    //float right_trigger = 0;
+    //float left_trigger = 0;
 
     @Override
     public void loop() {
@@ -126,14 +128,20 @@ public class PlutoHardware extends OpMode {
         double inputRL = gamepad1.left_stick_x;
         double inputTurn = gamepad1.right_stick_x;
 
-        double liftPower;
+        double liftMove = -gamepad2.left_stick_y * .4;
+        lift.setPower(liftMove);
 
-        right_trigger = gamepad2.right_trigger;
-        left_trigger = gamepad2.left_trigger;
+        //right_trigger = gamepad2.right_trigger;
+       // left_trigger = gamepad2.left_trigger;
+        if (gamepad2.dpad_left) {
+            elbow.setPosition(1);
+        }
+        if (gamepad2.dpad_right) {
+            elbow.setPosition(-1);
+        }
 
-        double voltReading = (float) pot.getVoltage();
 //        convert voltage to distance in cm
-        double percentTurned = voltReading; // /5 * 100;
+       // double percentTurned = voltReading * 1000;
 
        // telemetry.addData("PercentRot", "percent: " + (percentTurned));
 
@@ -147,48 +155,38 @@ public class PlutoHardware extends OpMode {
         //rightBackWheel.setPower(0);
 
         /******************************************************************************/
-        if (right_trigger > 0) {
-            triggerC = triggerC + 1;
-        } else if (left_trigger > 0) {
-            triggerC = triggerC - 1;
-        } else {
-            triggerC = triggerC;
-        }
+       // if (right_trigger > 0) {
+       //     triggerC = triggerC + 1;
+      //  } else if (left_trigger > 0) {
+      //      triggerC = triggerC - 1;
+      //  } else {
+      //      triggerC = triggerC;
+      //  }
         //constraints for triggerC
-        if (triggerC > 2) {
-            triggerC = 2;
-        }
-        if (triggerC < 0) {
-            triggerC = 0;
-        }
-        elbow.setPosition(triggerC * 0.5);
-
+       // if (triggerC > 2) {
+       //     triggerC = 2;
+      //  }
+      //  if (triggerC < 0) {
+      //      triggerC = 0;
+      //  }
+       // elbow.setPosition(triggerC * 0.5);
+      //  elbow.setPosition(1);
 /***********************************************************************************/
-        elbow.setPosition(1);
-        if (gamepad2.dpad_right) {
-            elbow.setPosition(0);
-        }
-        if (gamepad2.a) {
-//TODO      press a to hold
-            wrist.setPosition(0);
-        } else if (gamepad2.b) {
-//TODO      press b to release
+
+        //if (gamepad2.dpad_right) {
+           // elbow.setPosition(0);
+       // }
+        if (gamepad2.dpad_down) {
             wrist.setPosition(1);
         }
-        /********************************************************************/
-        //double craneMove = (-gamepad2.left_stick_y);
         if (gamepad2.dpad_up) {
-            liftPower = 1;
-        } else if (gamepad2.dpad_down) {
-            liftPower = -0.75;
-        } else if (pot.getVoltage() < targetPosition) {
-          liftPower = 0.25;
-        } else if (pot.getVoltage() > targetPosition) {
-            liftPower = -0.25;
-        } else {
-            liftPower = 0;
+            wrist.setPosition(-1);
         }
-         lift.setPower(liftPower);
+        /********************************************************************/
+
+
+// TODO -1500 up position; 2235 down position; 1625 0 position
+
         /***********************************************************************/
         //TODO     Foundation dragging Hooks
 
@@ -205,7 +203,7 @@ public class PlutoHardware extends OpMode {
         /***********************************************************************/
 
         //Code is for Continous Rotation Servo DIFFERENT CODE
-//
+
         if (gamepad2.b == true) {
             shoulder.setDirection(CRServo.Direction.FORWARD);
             shoulder.setPower(.5);
@@ -214,15 +212,15 @@ public class PlutoHardware extends OpMode {
         }
         if (gamepad2.x == true) {
             shoulder.setDirection(CRServo.Direction.REVERSE);
-            shoulder.setPower(0.5);
+            shoulder.setPower(.5);
         } else {
             shoulder.setPower(0);
         }
         /*************************************************************************/
-        telemetry.addData("Voltage", voltReading);
-        telemetry.addData("Right Trigger", right_trigger);
-        telemetry.addData("Left Trigger", left_trigger);
-        telemetry.addData("Trigger Count", triggerC);
+        telemetry.addData("Encoder Lift", "%d", lift.getCurrentPosition());
+//        telemetry.addData("encoder-lift", lift.getCurrentPosition() + "  busy=" + lift.isBusy());
+
+
         telemetry.update();
     }
 }

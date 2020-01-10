@@ -13,9 +13,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous(name = "NewPlanRedSide", group = "AutoOp")
+@Autonomous(name = "Blocks Blue", group = "AutoOp")
 
-public class NewPlanRedSide extends LinearOpMode {
+public class Blocks_blue extends LinearOpMode {
 
     // Drive motors
     DcMotor left_forward;
@@ -52,15 +52,15 @@ public class NewPlanRedSide extends LinearOpMode {
             left_backward.setDirection(DcMotor.Direction.REVERSE);
             left_forward.setDirection(DcMotor.Direction.REVERSE);
             //setting the variable F(Finger) to 0.6
-            F1.setPosition(0.6);
-            F2.setPosition(0.6);
+            F1.setPosition(0.5);
+            F2.setPosition(0.5);
             //setting our two fingers to the variable finger
             F1.setPosition(F);
             F2.setPosition(F);
 
             //left_forward.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-
+//Sam was here
 //
 //
 //            OpModeIsActive = true;
@@ -86,104 +86,59 @@ public class NewPlanRedSide extends LinearOpMode {
             telemetry.addData("Mode", "Pluto walking");
             telemetry.update();
 
-            //Robot strafing right
-            drive(0.25,-0.25,0.25,-0.25);
 
-            sleep(500);
-            // Stops for a few seconds to not have delay on the right wheel
+            //Strafes right
+            drive(0.25,-0.25,-0.25,0.25);
+
+            sleep(15);
             brake();
 
-            sleep(1000);
+            //moves backwards to line up with the 1st block
+            drive(-0.1,-0.1, -0.1,-0.1);
 
-            //drive backwards towards foundation
-            drive(-0.2,-0.2,-0.2,-0.2);
-
-            sleep(500);
+            sleep(50);
             brake();
-            //Drop fingers
-            F1.setPosition(0);
-            F2.setPosition(0);
 
-            sleep(1000);
+            //Strafes right into the block
+            drive(0.25,-0.25,-0.25,0.25);
 
-            //Pulls foundation forward to building corner
-            drive(0.25,0.25,0.25,0.25);
-
-            sleep(1500);
+            sleep(50);
             brake();
+
+            //Moves the block into the robot
+            drive(0.175,0.175,0.175,0.175);
+
+            sleep(50);
+            brake();
+
+            //strafes left
+            drive(-0.2,0.2,0.2,-0.2);
+
+            sleep(100);
+            brake();
+
+            //Moves the block over bridge
+            drive(0.275,0.275,0.275,0.275);
+
+            sleep(150);
+            brake();
+
+            //moves back under bridge
+            drive(-0.15,-0.15,-0.15,-0.15);
+
+            sleep(50);
+            brake();
+
             //lifts fingers
-            F1.setPosition(0.6);
-            F2.setPosition(0.6);
+            F1.setPosition(0.5);
+            F2.setPosition(0.5);
 
             sleep(1500);
 
-            //strafes left to park under bridge
-            drive(-0.25,0.25,-0.25,0.25);
 
-            sleep(500);
-            brake();
-
-            // Move the robot forward
-             drive(-0.25,-0.25,-0.25,-0.25);
-
-            sleep(250);
-            brake();
-
-               //Robot strafing right
-            drive(-0.25,0.25,-0.25,0.25);
-
-            sleep(250);
-
-            telemetry.addData("Mode", "Pluto has walked");
-
-
-
-
-// --++ for crab left
-
-
-            //Pluto's plan
-
-
-          //Crab left
-
-           // strafe(-1,-1,1,1);
-            //sleep(1000);
-            //strafe(-1,-1,1,1);
-            //sleep(1000);
-            //strafe(-.5,-.5,.5,.5);
-//            //sleep(1000);
-//            while (OpModeIsActive) {
-//                F2.setPosition(F);
-//                F1.setPosition(F);
-//            }
-//            //Drive Forward to Sled
 //
-//            //strafe(0,0,0,0);
-//            //sleep(1000);
-            //strafe(-1,1,-1,1);
-            //sleep(1000);
-            //strafe(0,0,0,0);
-
-           // sleep(500);
-
-            //left_forward.setDirection(DcMotorSimple.Direction.REVERSE);
-            //right_forward.setDirection(DcMotorSimple.Direction.FORWARD);
-            //left_backward.setDirection(DcMotorSimple.Direction.REVERSE);
-            //right_backward.setDirection(DcMotorSimple.Direction.FORWARD);
-
-           // left_forward.setPower(1);
-            //right_forward.setPower(1);
-            //left_backward.setPower(1);
-           // right_backward.setPower(1);
-
             sleep(1000);
-           // F = 0;
 
-           // if (OpModeIsActive == true) {
-              //  F1.setPosition(F);
-               // F2.setPosition(F);
-            //}
         }
 
         public void drive(double powerLF, double powerLB, double powerRF, double powerRB) {
@@ -194,14 +149,13 @@ public class NewPlanRedSide extends LinearOpMode {
             right_backward.setPower(powerRB);
             sleep(1000);
         }
+
         public void brake() {
             left_forward.setPower(0);
             left_backward.setPower(0);
             right_forward.setPower(0);
             right_backward.setPower(0);
             sleep(1000);
-
-
         }
     }
 

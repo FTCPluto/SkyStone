@@ -80,7 +80,7 @@ public class AutoRedSide extends LinearOpMode {
             telemetry.update();
 
             //Robot strafing right
-            drive(0.25,-0.25,-0.25,0.25);
+            drive(-0.25,0.25,0.25,-0.25);
 
             sleep(500);
             // Stops for a few seconds to not have delay on the right wheel
@@ -91,13 +91,18 @@ public class AutoRedSide extends LinearOpMode {
             //drive backwards towards foundation
             drive(-0.15,-0.15,-0.15,-0.15);
 
-            sleep(600);
+            sleep(700);
             brake();
             //Drop fingers
             F1.setPosition(0);
             F2.setPosition(0);
 
             sleep(900);
+            //drive backwards towards foundation
+            drive(0.25,0.25,0.25,0.25);
+
+            sleep(350);
+            brake();
 
             // Rotate the foundation right
             sleep(1600);
@@ -111,21 +116,20 @@ public class AutoRedSide extends LinearOpMode {
             F1.setPosition(0.5);
             F2.setPosition(0.5);
 
+            //Robot strafing right
+            drive(-0.25,0.25,.25,-0.25);
+
+            sleep(50);
+            brake();
+
             // move foundation to the wall
             drive(-0.25,-0.25,-0.25,-0.25);
 
             sleep(50);
             brake();
 
-            //Robot strafing right
-            drive(-0.25,0.25,-0.25,0.25);
-
-            sleep(100);
-            brake();
-
-
             //Moves back to park under bridge
-            drive(-0.2,-0.2,-0.2,-0.2);
+            drive(0.2,0.2,0.17,0.17);
 
             sleep(300);
             brake();
